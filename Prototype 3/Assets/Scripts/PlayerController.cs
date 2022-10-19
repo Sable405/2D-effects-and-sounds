@@ -9,12 +9,18 @@ public class PlayerController : MonoBehaviour
     public bool isGameOver = false;
     private Rigidbody2D _playerRB;
     private Animator _playerAnim;
+    private AudioSource _playerAudio;
+
+    public AudioClip jumpSound;
+    public AudioClip crashSounds;
+
 
     // Start is called before the first frame update
     void Start()
     {
         _playerRB = GetComponent<Rigidbody2D>();
         _playerAnim = GetComponent<Animator>();
+        _playerAudio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -25,6 +31,7 @@ public class PlayerController : MonoBehaviour
             _playerRB.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             isOnGround = false;
             _playerAnim.SetBool("IsOnGround", false);
+            _playerAudio.PlayOneShot(jumpSound, 1.0f);
         }
     }
 
@@ -40,6 +47,7 @@ public class PlayerController : MonoBehaviour
          {
             isGameOver = true;
             _playerAnim.SetTrigger("IsHit");
+            _playerAudio.PlayOneShot(crashSounds, 1.0f);
          }
 
            
